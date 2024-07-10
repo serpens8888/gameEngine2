@@ -3,6 +3,7 @@
 
 
 #include "headers.hpp"
+#include "alHelper.hpp"
 	
 namespace snd {
 

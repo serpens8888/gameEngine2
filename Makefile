@@ -1,6 +1,6 @@
 SRC = src
 
-INPUTS = $(SRC)/main.cpp $(SRC)/soundDevice.cpp $(SRC)/soundBuffer.cpp
+INPUTS = $(SRC)/main.cpp $(SRC)/soundDevice.cpp $(SRC)/soundBuffer.cpp $(SRC)/alHelper.cpp
 
 CXX = clang++
 

@@ -72,6 +72,7 @@ namespace snd {
                sample_format = Int16;
             else{
                // read block alignment go from bytes to samples per block and then converting back and checking validity
+               // magic numbers straight from the example code
                byteBlockAlign = fmtbuf[12] | (fmtbuf[13]<<8);
                if(sample_format == IMA4){
                   sampleBlockAlign = (byteBlockAlign/sfinfo.channels - 4)*2+1;   // /4*8+1;
@@ -80,17 +81,128 @@ namespace snd {
                }
                else{
                   sampleBlockAlign = (byteBlockAlign/sfinfo.channels - 7)*2+2;
-                  if(sampleBlockAlign < 2 || ((sampleBlockAlign-2)/2+7)*sfinfo.channels != byteBLockAlign)
+                  if(sampleBlockAlign < 2 || ((sampleBlockAlign-2)/2+7)*sfinfo.channels != byteBlockAlign)
                      sample_format = Int16;
                }
 
 
             }
+            free(fmtbuf);
          }
             
       }
+
+
+      if(sample_format == Int16){
+         sampleBlockAlign = 1;
+         byteBlockAlign = sfinfo.channels*2;
+      }
+      else if(sample_format == Float){
+         sampleBlockAlign = 1;
+         byteBlockAlign = sfinfo.channels*4;
+      }
+
+      format = AL_NONE;
+      switch(sfinfo.channels){
+         case 1:
+            switch(sample_format){
+               case Int16: format = AL_FORMAT_MONO16; break;
+               case Float: format = AL_FORMAT_MONO_FLOAT32; break;
+               case IMA4: format = AL_FORMAT_MONO_IMA4; break;
+               case MSADPCM: format = AL_FORMAT_MONO_MSADPCM_SOFT; break;
+            }
+         break;
+               
+         case 2:
+            switch(sample_format){
+               case Int16: format = AL_FORMAT_STEREO16; break;
+               case Float: format = AL_FORMAT_STEREO_FLOAT32; break;
+               case IMA4: format = AL_FORMAT_STEREO_IMA4; break;
+               case MSADPCM: format = AL_FORMAT_STEREO_MSADPCM_SOFT; break;
+            }
+         break;
+
+         case 3:
+            if(sf_command(sndfile, SFC_WAVEX_GET_AMBISONIC, NULL, 0) == SF_AMBISONIC_B_FORMAT){
+               switch(sample_format){
+                  case Int16: format = AL_FORMAT_BFORMAT2D_16; break;
+                  case Float: format = AL_FORMAT_BFORMAT2D_FLOAT32; break;
+                  default: break;
+               }
+            }
+         break;
+         
+         case 4:
+            if(sf_command(sndfile, SFC_WAVEX_GET_AMBISONIC, NULL, 0) == SF_AMBISONIC_B_FORMAT){
+               switch(sample_format){
+                  case Int16: format = AL_FORMAT_BFORMAT3D_16; break;
+                  case Float: format = AL_FORMAT_BFORMAT3D_FLOAT32; break;
+                  default: break;
+               }
+            }
+         break;
+      }
+
+      if(!format){
+         std::cerr << "unsupported channel count: " << sfinfo.channels << "\n";
+         sf_close(sndfile);
+         return 0;
+      }
       
-    }
+      if(sfinfo.frames/sampleBlockAlign > (sf_count_t)(INT_MAX/byteBlockAlign)){
+         std::cerr << "too many samples in: " << filename << sfinfo.frames << "\n";
+         sf_close(sndfile);
+         return 0;
+      }
+      
+      //decode the audio file to the buffer
+      membuf = malloc((size)(sfinfo.frames / sampleBlockAlign *byteBlockAlign));
+      
+      if(sample_format == Int16)
+         frames = sf_readf_short(sndfile, reinterpret_cast<i16*>(membuf), sfinfo.frames);
+      else if(sample_format == Float)
+         frames = sf_readf_float(sndfile, reinterpret_cast<float*>(membuf), sfinfo.frames);
+      else{
+         sf_count_t count = sfinfo.frames / sampleBlockAlign * byteBlockAlign;
+         frames = sf_read_raw(sndfile, membuf, count);
+         if(frames > 0)
+            frames = frames / byteBlockAlign * sampleBlockAlign;
+      }
+
+      if(frames < 1){
+         free(membuf);
+         sf_close(sndfile);
+         std::cerr <<"failed to read samples in: " << filename << frames << "\n";
+         return 0;
+      }
+      
+      bytes = (ALsizei)(frames / sampleBlockAlign * byteBlockAlign);
+      
+      std::cout << "Loading: " << filename << " " << formatName(format) << " " << sfinfo.samplerate << std::endl;
+      
+      //buffer data => free data => close file
+      
+      buffer = 0;
+      alGenBuffers(1, &buffer);
+      if(sampleBlockAlign > 1){
+         alBufferi(buffer, AL_UNPACK_BLOCK_ALIGNMENT_SOFT, sampleBlockAlign);
+      }
+      alBufferData(buffer, format, membuf, bytes, sfinfo.samplerate);
+
+      free(membuf);
+      sf_close(sndfile);
+
+      //check for errors and clean
+      err = alGetError();
+      if(err != AL_NO_ERROR){
+         std::cerr << "OpenAL errors: " << alGetString(err) << "\n";
+         if(buffer && alIsBuffer(buffer)){
+            alDeleteBuffers(1, &buffer);
+            return 0;
+         }
+      }
+      return buffer;
+      }
 
     bool soundBuffer::removeSound(const ALuint& buffer){
       auto it = soundBuffers.begin();
