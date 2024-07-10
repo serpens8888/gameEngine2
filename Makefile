@@ -1,10 +1,10 @@
 SRC = src
 
-INPUTS = $(SRC)/main.cpp
+INPUTS = $(SRC)/main.cpp $(SRC)/soundDevice.cpp
 
 CXX = clang++
 
-CXXFLAGS = -std=c++23 -static
+CXXFLAGS = -std=c++23 -static 
 
 INCLUDE =  -I./Include
 LIBS = -L./Lib

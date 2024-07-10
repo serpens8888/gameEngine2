@@ -16,7 +16,7 @@
 #include <stdexcept>
 #include <cassert>
 #include <vector>
-#include <cstdint>
+#include "betterInt.hpp"
 
 
 

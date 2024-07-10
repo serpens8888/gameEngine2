@@ -1,1 +1,2 @@
  -I./Include
+ -std=c++23

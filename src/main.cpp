@@ -1,13 +1,9 @@
-#include <vulkan/vulkan.h>
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-#include <AL/al.h>
-#include <AL/alc.h>
-#include <iostream>
+#include "headers.hpp"
+#include "soundDevice.hpp"
 
 
 int main() {
-    
+    snd::soundDevice * speaker = snd::soundDevice::get();
 
 
 
@@ -18,5 +14,5 @@ int main() {
 
 
 
-    return 0;
+return 0;
 }
