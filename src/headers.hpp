@@ -9,16 +9,18 @@
 #include <AL/alc.h>
 #include <AL/alext.h>
 #include <sndfile.h>
+#include <glm/glm.hpp>
+#include <Shlwapi.h>
 
 
 
-
+#include "betterInt.hpp"
+#include "glmPlusPlus.hpp"
 #include <iostream>
 #include <string>
 #include <stdexcept>
 #include <cassert>
 #include <vector>
-#include "betterInt.hpp"
 #include <limits.h>
 #include <stdio.h>
 

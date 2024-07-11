@@ -31,7 +31,7 @@ namespace snd {
         if(!name || alcGetError(device) != AL_NO_ERROR){
             name = alcGetString(device, ALC_DEVICE_SPECIFIER);
         }
-        std::cout << "audio device:\n" << name;
+        std::cout << "audio device: " << name << "\n";
     }
 
     soundDevice::~soundDevice(){
