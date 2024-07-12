@@ -1,8 +1,8 @@
 #include "headers.hpp"
-#include "soundDevice.hpp"
-#include "soundBuffer.hpp"
-#include "soundSource.hpp"
-#include "window.hpp"
+#include "snd/soundDevice.hpp"
+#include "snd/soundBuffer.hpp"
+#include "snd/soundSource.hpp"
+#include "gfx/window.hpp"
 
 
 int main() {

@@ -1,7 +1,7 @@
 #ifndef __SOUNDSOURCE_HPP
 #define __SOUNDSOURCE_HPP
 	
-#include "headers.hpp"
+#include "../headers.hpp"
 namespace snd{
 
 struct soundSource{

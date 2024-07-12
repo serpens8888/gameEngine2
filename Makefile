@@ -1,6 +1,9 @@
 SRC = src
+SND = $(SRC)/snd
+GFX = $(SRC)/gfx
+UTILS = $(SRC)/utils
 
-INPUTS = $(SRC)/main.cpp $(SRC)/soundDevice.cpp $(SRC)/soundBuffer.cpp $(SRC)/alHelper.cpp $(SRC)/soundSource.cpp $(SRC)/window.cpp
+INPUTS = $(SRC)/main.cpp $(SND)/soundDevice.cpp $(SND)/soundBuffer.cpp $(SND)/alHelper.cpp $(SND)/soundSource.cpp $(GFX)/window.cpp
 
 CXX = clang++
 

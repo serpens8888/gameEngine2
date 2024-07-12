@@ -1,7 +1,7 @@
 #ifndef __WINDOW_HPP
 #define __WINDOW_HPP
 
-#include "headers.hpp"
+#include "../headers.hpp"
 
 namespace gfx{
 

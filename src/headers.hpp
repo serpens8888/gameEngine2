@@ -14,8 +14,8 @@
 
 
 
-#include "betterInt.hpp"
-#include "glmPlusPlus.hpp"
+#include "utils/betterInt.hpp"
+#include "utils/glmPlusPlus.hpp"
 #include <iostream>
 #include <string>
 #include <stdexcept>

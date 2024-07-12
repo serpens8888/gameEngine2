@@ -2,7 +2,7 @@
 #define __SOUNDBUFFER_HPP
 
 
-#include "headers.hpp"
+#include "../headers.hpp"
 #include "alHelper.hpp"
 	
 namespace snd {
