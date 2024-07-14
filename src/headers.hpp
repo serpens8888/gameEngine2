@@ -9,6 +9,8 @@
 #include <AL/alc.h>
 #include <AL/alext.h>
 #include <sndfile.h>
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/glm.hpp>
 #include <Shlwapi.h>
 
@@ -23,6 +25,7 @@
 #include <vector>
 #include <limits.h>
 #include <stdio.h>
+#include <cstring>
 
 
 

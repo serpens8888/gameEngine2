@@ -29,7 +29,7 @@ namespace gfx {
             }
             
 	    bool window::shouldClose(){
-                        if(glfwGetKey(screen, GLFW_KEY_ESCAPE) == GLFW_PRESS){
+                        if(glfwGetKey(screen, GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(screen) == true){
                                     return true;
                         }
                         return false;
