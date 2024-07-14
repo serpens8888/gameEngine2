@@ -67,14 +67,13 @@ namespace gfx{
                         createInfo.ppEnabledExtensionNames = glfwExtensions;
                         }
 
-                        createInfo.pNext = NULL;
                         debugCreateInfo.pNext = NULL; // makes the validation layers happy if i set it to null before making the instance
-
+                        createInfo.pNext = NULL;
                         if(vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS){
                                     throw std::runtime_error("failed to create instance");
                         }
 
-//                        printExtensions();
+                        printExtensions();
 
                         if(enableValidationLayers){
                                     debugCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
@@ -94,7 +93,6 @@ namespace gfx{
 
             VKAPI_ATTR VkBool32 VKAPI_CALL vkInstance::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType,
                                                                 const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* userData){
-//                        if(messageSeverity >= VK_DEBUG_UTILS_MESSAGE_ ...) //the lsp should show the available options for severity
                         std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
                         return VK_FALSE;
             }
