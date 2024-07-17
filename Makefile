@@ -3,7 +3,7 @@ SND = $(SRC)/snd
 GFX = $(SRC)/gfx
 UTILS = $(SRC)/utils
 
-INPUTS = $(SRC)/main.cpp $(SND)/soundDevice.cpp $(SND)/soundBuffer.cpp $(SND)/alHelper.cpp $(SND)/soundSource.cpp $(GFX)/window.cpp $(GFX)/vkInstance.cpp
+INPUTS = $(SRC)/main.cpp $(SND)/soundDevice.cpp $(SND)/soundBuffer.cpp $(SND)/alHelper.cpp $(SND)/soundSource.cpp $(GFX)/window.cpp $(GFX)/vkInstance.cpp $(GFX)/vkDevice.cpp 
 
 CXX = clang++
 

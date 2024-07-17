@@ -4,6 +4,7 @@
 #include "snd/soundSource.hpp"
 #include "gfx/window.hpp"
 #include "gfx/vkInstance.hpp"
+#include "gfx/vkDevice.hpp"
 
 
 int main() {
@@ -12,16 +13,18 @@ int main() {
     snd::soundSource speaker;
     gfx::window * screen = gfx::window::get(800,600,"gameEngine");
     gfx::vkInstance * instance  = gfx::vkInstance::get();
+    gfx::vkDevice * device = gfx::vkDevice::get(*instance);
 
     speaker.play(sound2);
 
-    while(!screen->shouldClose()){
-        glfwPollEvents();
+    std::cout << "loop starting\n";
+    while(!screen->shouldClose()){ 
 
-
+        glfwPollEvents(); 
 
     }
 
+    std::cout << "loop ending\n";
 
 
 
