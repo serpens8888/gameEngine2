@@ -1,24 +1,25 @@
-#ifndef __VKDEVICE_HPP
-#define __VKDEVICE_HPP
+#ifndef __PHYSICALDEVICE_HPP
+#define __PHYSICALDEVICE_HPP
 #include "../headers.hpp"
 #include "vkInstance.hpp"
+#include "queue.hpp"
 
 
 namespace gfx{
 
 
-	struct vkDevice {
+	struct physicalDevice {
 
-	static vkDevice * get(vkInstance& instance);
+	static physicalDevice * get(vkInstance& instance);
 
-	vkDevice(vkInstance& instance);
-	~vkDevice();
+	physicalDevice(vkInstance& instance);
+	~physicalDevice();
 
 	bool suitable(VkPhysicalDevice device);
 
 	u32 deviceCount;
 	std::vector<VkPhysicalDevice> devices;
-	VkPhysicalDevice physicalDevice;
+	VkPhysicalDevice GPU;
 	VkPhysicalDeviceProperties deviceProperties;
 	VkPhysicalDeviceFeatures deviceFeatures;
 

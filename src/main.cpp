@@ -4,7 +4,7 @@
 #include "snd/soundSource.hpp"
 #include "gfx/window.hpp"
 #include "gfx/vkInstance.hpp"
-#include "gfx/vkDevice.hpp"
+#include "gfx/physicalDevice.hpp"
 
 
 int main() {
@@ -13,7 +13,7 @@ int main() {
     snd::soundSource speaker;
     gfx::window * screen = gfx::window::get(800,600,"gameEngine");
     gfx::vkInstance * instance  = gfx::vkInstance::get();
-    gfx::vkDevice * device = gfx::vkDevice::get(*instance);
+    gfx::physicalDevice * device = gfx::physicalDevice::get(*instance);
 
     speaker.play(sound2);
 

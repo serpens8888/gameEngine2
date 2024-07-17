@@ -1,17 +1,17 @@
-#include "vkDevice.hpp"
+#include "physicalDevice.hpp"
 
 
 namespace gfx{
 
 
-	vkDevice * vkDevice::get(vkInstance& instance){
-            static vkDevice * device = new vkDevice(instance);
+	physicalDevice * physicalDevice::get(vkInstance& instance){
+            static physicalDevice * device = new physicalDevice(instance);
             return device;
 	}
 
-	vkDevice::vkDevice(vkInstance& instance) : deviceCount(0), physicalDevice(VK_NULL_HANDLE){
+	physicalDevice::physicalDevice(vkInstance& instance) : deviceCount(0), GPU(VK_NULL_HANDLE){
             deviceCount = 0;
-            physicalDevice = VK_NULL_HANDLE;
+            GPU = VK_NULL_HANDLE;
             if(instance.instance == VK_NULL_HANDLE){
                         std::cerr << "instance is null\n";
                         throw std::runtime_error("instance is null");
@@ -25,12 +25,12 @@ namespace gfx{
             vkEnumeratePhysicalDevices(instance.instance, &deviceCount, devices.data());
             for(size i = 0; i <= devices.size()-1;i++){
                         if(suitable(devices[i])){
-                                    physicalDevice = devices[i];
-                                    std::cout << physicalDevice << std::endl;
+                                    GPU = devices[i];
+                                    std::cout << GPU << std::endl;
                                     break;
                         }
             }
-            if(physicalDevice == VK_NULL_HANDLE){
+            if(GPU == VK_NULL_HANDLE){
                         std::cerr << "failed to find suitable GPU\n";
                         throw std::runtime_error("failed to find suitable GPU\r\n");
             }
@@ -38,15 +38,17 @@ namespace gfx{
             std::cout << "device constructor completed!\n";
         }
 
-	bool vkDevice::suitable(VkPhysicalDevice device){
+	bool physicalDevice::suitable(VkPhysicalDevice device){
             vkGetPhysicalDeviceProperties(device, &deviceProperties);
             vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
             //return deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU && deviceFeatures.geometryShader; example of possible picking process, also see multimap versin on vulkan tutorial
-            return true;
+            queueFamily foo(device);
+            queueFamilyIndices indices = foo.findQueueFamilies(device);
+            return indices.isComplete();
 
         }
 
-	vkDevice::~vkDevice(){
+	physicalDevice::~physicalDevice(){
 	}
 
 
