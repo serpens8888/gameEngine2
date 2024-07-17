@@ -1,45 +1,36 @@
 #include "queue.hpp"
 
+size i = 0;
 
-            size i = 0;
+namespace gfx {
 
-namespace gfx{
+queueFamily::queueFamily(VkPhysicalDevice GPU) {}
 
-            queueFamily::queueFamily(VkPhysicalDevice GPU){
+queueFamilyIndices queueFamily::findQueueFamilies(VkPhysicalDevice device) {
+  queueFamilyIndices indices;
+  queueFamilyCount = 0;
+  vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+  queueFamilies.resize(queueFamilyCount);
+  vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount,
+                                           queueFamilies.data());
 
-            }
+  size i = 0;
+  for (const auto &family : queueFamilies) {
+    if (family.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+      indices.graphicsFamily = i;
+    }
 
-            queueFamilyIndices queueFamily::findQueueFamilies(VkPhysicalDevice device){
-                        queueFamilyIndices indices;
-		        queueFamilyCount = 0;
-                        vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
-                        queueFamilies.resize(queueFamilyCount);
-                        vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
-                        
-                        size i = 0;
-                        for(const auto& family : queueFamilies){
-                                    if(family.queueFlags & VK_QUEUE_GRAPHICS_BIT){
-                                                indices.graphicsFamily = i;
-                                    }
-                                    
-                                    if(indices.isComplete()){
-                                                break;
-                                    }
-                                    i++;
-                        }
+    if (indices.isComplete()) {
+      break;
+    }
+    i++;
+  }
 
-                        return indices;
+  return indices;
+}
 
-            }
+queueFamily::~queueFamily() {}
 
-            queueFamily::~queueFamily(){
-                        
-            }
+bool queueFamilyIndices::isComplete() { return graphicsFamily.has_value(); }
 
-
-
-            bool queueFamilyIndices::isComplete(){
-                        return graphicsFamily.has_value();
-            }
-
-} //gfx namespace
+} // namespace gfx

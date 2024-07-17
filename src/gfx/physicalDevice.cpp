@@ -26,7 +26,6 @@ namespace gfx{
             for(size i = 0; i <= devices.size()-1;i++){
                         if(suitable(devices[i])){
                                     GPU = devices[i];
-                                    std::cout << GPU << std::endl;
                                     break;
                         }
             }
@@ -35,7 +34,8 @@ namespace gfx{
                         throw std::runtime_error("failed to find suitable GPU\r\n");
             }
 
-            std::cout << "device constructor completed!\n";
+            printSpecs(GPU);
+
         }
 
 	bool physicalDevice::suitable(VkPhysicalDevice device){
@@ -47,6 +47,16 @@ namespace gfx{
             return indices.isComplete();
 
         }
+
+            void physicalDevice::printSpecs(VkPhysicalDevice device){
+            std::cout << "GPU name: " << deviceProperties.deviceName << "\n";
+            std::cout << "API version: " << VK_VERSION_MAJOR(deviceProperties.apiVersion) << "." << VK_VERSION_MINOR(deviceProperties.apiVersion) 
+                      << "." << VK_VERSION_PATCH(deviceProperties.apiVersion) << "\n";
+            std::cout << "Driver version: " << deviceProperties.driverVersion << "\n";
+            std::cout << "Vendor ID: " << deviceProperties.vendorID << "\n";
+            std::cout << "Device ID: " << deviceProperties.deviceID << "\n";
+            std::cout << "Geometry Shader: " << (deviceFeatures.geometryShader ? "supported" : "not supported") << std::endl;
+            }
 
 	physicalDevice::~physicalDevice(){
 	}

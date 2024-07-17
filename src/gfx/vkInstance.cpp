@@ -47,6 +47,7 @@ namespace gfx{
                         appInfo.pEngineName = "my game engine";
                         appInfo.engineVersion = VK_MAKE_VERSION(1,0,0);
                         appInfo.apiVersion = VK_API_VERSION_1_3;
+                        appInfo.pNext = NULL;
 
                         createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
                         createInfo.pApplicationInfo = &appInfo;
@@ -72,8 +73,6 @@ namespace gfx{
                         if(vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS){
                                     throw std::runtime_error("failed to create instance");
                         }
-
-                        printExtensions();
 
                         if(enableValidationLayers){
                                     debugCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;

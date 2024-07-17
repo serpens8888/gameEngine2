@@ -17,6 +17,8 @@ namespace gfx{
 
 	bool suitable(VkPhysicalDevice device);
 
+	void printSpecs(VkPhysicalDevice device);
+
 	u32 deviceCount;
 	std::vector<VkPhysicalDevice> devices;
 	VkPhysicalDevice GPU;
