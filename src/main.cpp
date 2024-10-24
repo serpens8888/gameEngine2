@@ -3,9 +3,6 @@
 #include "snd/soundBuffer.hpp"
 #include "snd/soundSource.hpp"
 #include "gfx/window.hpp"
-#include "gfx/vkInstance.hpp"
-#include "gfx/physicalDevice.hpp"
-#include "gfx/logicalDevice.hpp"
 
 
 int main() {
@@ -13,9 +10,6 @@ int main() {
     u32 sound2 = snd::soundBuffer::get()->addSound("./sound/Lacrimosa.ogg");
     snd::soundSource speaker;
     gfx::window * screen = gfx::window::get(800,600,"gameEngine");
-    gfx::vkInstance * instance  = gfx::vkInstance::get();
-    gfx::physicalDevice * GPU = gfx::physicalDevice::get(*instance);
-    gfx::logicalDevice * device = gfx::logicalDevice::get(*GPU, *instance);
 
     speaker.play(sound2);
 
