@@ -5,13 +5,13 @@
 namespace snd{
 
 
-soundSource::soundSource(){
+void soundSource::create(speakerCreationData creationData){
             alGenSources(1, &source);
-            alSourcef(source, AL_PITCH, pitch);
-            alSourcef(source, AL_GAIN, gain);
-            alSource3f(source, AL_POSITION, position.x, position.y, position.z);
-            alSource3f(source, AL_VELOCITY, velocity.x, velocity.y, velocity.z);
-            alSourcei(source, AL_LOOPING, loopSound);
+            alSourcef(source, AL_PITCH, creationData.pitch);
+            alSourcef(source, AL_GAIN, creationData.gain);
+            alSource3f(source, AL_POSITION, creationData.position.x, creationData.position.y, creationData.position.z);
+            alSource3f(source, AL_VELOCITY, creationData.velocity.x, creationData.velocity.y, creationData.velocity.z);
+            alSourcei(source, AL_LOOPING, creationData.loopSound);
             alSourcef(source, AL_BUFFER, buffer);
 }
 

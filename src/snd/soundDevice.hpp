@@ -1,6 +1,6 @@
 #ifndef __SOUNDDEVICE_HPP
 #define __SOUNDDEVICE_HPP
-#include "../headers.hpp"
+#include "headers.hpp"
 namespace snd {
 struct soundDevice{
 	static soundDevice* get();
